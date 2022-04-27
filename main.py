@@ -1,7 +1,14 @@
+import sys
+import os
 import pygame
-from pygame import mixer
+#from pygame import mixer
 import random
 import math
+
+def resource_path(relative_path):
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.join(os.path.abspath("."), relative_path)
 
 pygame.init()
 
@@ -10,24 +17,25 @@ screen = pygame.display.set_mode((800,600))
 pygame.display.set_caption("Invaders Game")
 
 #Player
-playerImg = pygame.image.load("./img/player.png")
+playerImg = pygame.image.load(resource_path("./img/player.png"))
 playerX, playerY = 370,480
 playerX_change = 0
 
 #Enemy
-enemyImg = pygame.image.load("./img/enemy.png")
+enemyImg = pygame.image.load(resource_path("./img/enemy.png"))
 enemyX = random.randint(0,736)
 enemyY = random.randint(50,150)
 enemyX_change,enemyY_change = 2,20
 
 #Bullet
-bulletImg = pygame.image.load("./img/bullet.png")
+bulletImg = pygame.image.load(resource_path("./img/bullet.png"))
 bulletX,bulletY = 0,480
 bulletX_change,bulletY_change = 0,3
 bullet_state = "ready"
 
 #Score
 score_value = 0
+
 
 
 def enemy(x,y):
@@ -64,7 +72,7 @@ while running:
             if event.key == pygame.K_RIGHT:
                 playerX_change = 1.5
             if event.key == pygame.K_SPACE:
-                if bullet_state is "ready":
+                if bullet_state == "ready":
                     bulletX = playerX
                     fire_bullet(bulletX,bulletY)
 
@@ -104,7 +112,7 @@ while running:
     if bulletY <= 0:
         bulletY = 480
         bullet_state = "ready"
-    if bullet_state is "fire":
+    if bullet_state == "fire":
         fire_bullet(bulletX,bulletY)
         bulletY -= bulletY_change
 
@@ -116,5 +124,3 @@ while running:
     player(playerX,playerY)
     enemy(enemyX,enemyY)
     pygame.display.update()
-
-
