@@ -1,5 +1,5 @@
 import pygame
-#from pygame import mixer
+from pygame import mixer
 import random
 import math
 
@@ -30,17 +30,18 @@ bullet_state = "ready"
 score_value = 0
 
 
+#Sound
+mixer.Sound("./sound/background.wav").play()
 
 def enemy(x,y):
     screen.blit(enemyImg,(x,y))
-
-#mixer.Sound(".\sound\laser.wav").play()
 
 def player(x,y):
     screen.blit(playerImg,(x, y))
 
 def fire_bullet(x,y):
     global bullet_state
+    mixer.Sound("./sound/laser.wav").play()
     bullet_state = "fire"
     screen.blit(bulletImg,(x + 16,y + 10))#球の画像分を足す。
 
